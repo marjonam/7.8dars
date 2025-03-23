@@ -1,7 +1,22 @@
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../app/features/userSlice";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    if (email && password) {
+      dispatch(login({ email }));
+      navigate("/");
+    }
+  };
+
   return (
     <div
       style={{
@@ -9,47 +24,55 @@ function Login() {
       }}
       className="h-screen grid place-items-center w-full bg-cover bg-center"
     >
-      <div>
-        <img className="  w-14 mx-auto" src="./login-logo.svg" />
-        <h2 className="text-4xl text-center mb-5 font-bold">Login</h2>
-        <div className="flex flex-col gap-2">
-          <label className="">
+      <div className=" p-8 rounded-lg  max-w-md w-full">
+        <img className="w-14 mx-auto mb-4" src="./login-logo.svg" alt="Logo" />
+        <h2 className="text-4xl text-center mb-5 font-bold text-white">
+          Login
+        </h2>
+        <div className="flex flex-col gap-4">
+          <label className="text-white">
             Email
             <input
               type="email"
               required
               placeholder="Type here"
-              className="input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input w-full mt-1 p-2 rounded-lg border border-gray-300"
             />
           </label>
-          <label>
+          <label className="text-white">
             Password
             <input
               type="password"
               required
               placeholder="Type here"
-              className="input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input w-full mt-1 p-2 rounded-lg border border-gray-300"
             />
           </label>
-          <div className=" flex flex-col gap-3 mt-3 my-2 md:flex-row">
-            {/* {!isPending && (
-            <button className="btn btn-warning btn-block">Login</button>
-          )} */}
-            <button className="btn btn-primary grow md:btn-md btn-sm">
+
+          <div className="flex justify-center gap-4 mt-4">
+            <button
+              onClick={handleLogin}
+              className="btn bg-purple-700 hover:bg-purple-900 text-white py-2 px-6 rounded-lg"
+            >
               Login
             </button>
-            <button className="btn btn-secondary btn-sm grow md:btn-md disabled:bg-slate-300">
+            <button className="btn bg-pink-600 hover:bg-pink-800 text-white py-2 px-6 rounded-lg">
               Google
             </button>
           </div>
-        </div>
-        <div className="text-center ">
-          <p>
-            If you don't have account,please
-            <Link className="link link-warning" to="/register">
-              Register
-            </Link>
-          </p>
+
+          <div className="text-center text-white mt-4">
+            <p>
+              If you don't have an account, please{" "}
+              <Link className="text-blue-400 underline" to="/register">
+                Register
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

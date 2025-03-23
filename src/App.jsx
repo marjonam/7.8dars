@@ -7,9 +7,12 @@ import MainLayout from "./layouts/MainLayout";
 import { Register, Login, Home, Create } from "./pages";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { useSelector } from "react-redux";
+import { Provider } from "react-redux";
+import store from "./app/store";
 
 function App() {
   const { user } = useSelector((store) => store.user);
+
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -38,7 +41,12 @@ function App() {
       element: user ? <Navigate to="/" /> : <Register />,
     },
   ]);
-  return <RouterProvider router={routes} />;
+
+  return (
+    <Provider store={store}>
+      <RouterProvider router={routes} />
+    </Provider>
+  );
 }
 
 export default App;
